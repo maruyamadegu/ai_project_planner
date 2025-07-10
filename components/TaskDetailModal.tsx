@@ -1126,42 +1126,48 @@ const TaskDetailModal: React.FC<TaskDetailModalProps> = ({
 
         {/* Tab Navigation */}
         <div className="bg-white border-b border-slate-200 px-4">
-          <div className="flex space-x-8">
-            {[
-              { id: 'info', label: 'タスク情報', icon: NotesIcon },
-              { id: 'substeps', label: 'サブステップ', icon: SubtaskIcon },
-              { id: 'details', label: 'サブステップの詳細', icon: ClipboardDocumentListIcon }
-            ].map(({ id, label, icon: Icon }) => (
-              <button
-                key={id}
-                onClick={() => setActiveTab(id as any)}
-                className={`flex items-center gap-2 py-3 px-1 border-b-2 font-medium text-sm ${
-                  activeTab === id
-                    ? 'border-blue-500 text-blue-600'
-                    : 'border-transparent text-slate-500 hover:text-slate-700'
-                }`}
-              >
-                <Icon className="w-5 h-5" />
-                {label}
-                {maximizedPanel !== id && (
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setMaximizedPanel(maximizedPanel === id ? null : id as any);
-                    }}
-                    className="ml-2 p-1 hover:bg-slate-200 rounded"
-                    title={maximizedPanel === id ? "最小化" : "最大化"}
-                  >
-                    {maximizedPanel === id ? (
-                      <ArrowsPointingInIcon className="w-4 h-4" />
-                    ) : (
-                      <ArrowsPointingOutIcon className="w-4 h-4" />
-                    )}
-                  </button>
-                )}
-              </button>
-            ))}
-          </div>
+   　　　<div className="flex space-x-8">
+  {[
+    { id: 'info', label: 'タスク情報', icon: NotesIcon },
+    { id: 'substeps', label: 'サブステップ', icon: SubtaskIcon },
+    { id: 'details', label: 'サブステップの詳細', icon: ClipboardDocumentListIcon }
+  ].map(({ id, label, icon: Icon }) => {
+    const isActive = activeTab === id;
+
+    return (
+      <div
+        key={id}
+        onClick={() => setActiveTab(id as any)}
+        className={`relative flex items-center gap-2 py-3 px-1 border-b-2 font-medium text-sm cursor-pointer ${
+          isActive
+            ? 'border-blue-500 text-blue-600'
+            : 'border-transparent text-slate-500 hover:text-slate-700'
+        }`}
+      >
+        <Icon className="w-5 h-5" />
+        <span>{label}</span>
+
+        {maximizedPanel !== id && (
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setMaximizedPanel(maximizedPanel === id ? null : (id as any));
+            }}
+            className="ml-2 p-1 hover:bg-slate-200 rounded"
+            title={maximizedPanel === id ? "最小化" : "最大化"}
+          >
+            {maximizedPanel === id ? (
+              <ArrowsPointingInIcon className="w-4 h-4" />
+            ) : (
+              <ArrowsPointingOutIcon className="w-4 h-4" />
+            )}
+          </button>
+        )}
+      </div>
+    );
+  })}
+</div>
+
         </div>
 
         {/* Content */}
